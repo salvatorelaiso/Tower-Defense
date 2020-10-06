@@ -89,6 +89,8 @@ public class FpsReport : MonoBehaviour
     private DirectoryInfo directoryInfo;
     private string prefix;
 
+    private bool updatingSensors;
+
     private void Awake()
     {
         brainActive = brain.enabled && brain.enableBrain;
@@ -116,16 +118,18 @@ public class FpsReport : MonoBehaviour
         if (saveToTxt)
         {
             var separator = useAnotherSeparatorForTxt ? txtSeparator : defaultSeparator;
-            UpdateText(txtPath, separator);
+            UpdateText(txtPath, separator, updatingSensors);
         }
 
         if (saveToCsv)
         {
             var separator = useAnotherSeparatorForCsv ? csvSeparator : defaultSeparator;
-            UpdateText(csvPath, separator);
+            UpdateText(csvPath, separator, updatingSensors);
         }
+        updatingSensors = Performance.updatingSensors;
+        Performance.updatingSensors = false;
     }
-    
+
     private string CreateFile(string extension, Separator separator)
     {
         var suffix = "001";
@@ -150,7 +154,7 @@ public class FpsReport : MonoBehaviour
         return newFilePath;
     }
     
-    private void UpdateText(string path, Separator separator)
+    private void UpdateText(string path, Separator separator, bool updatingSensors)
     {
         using (StreamWriter sw = File.AppendText(path))
         {
@@ -158,7 +162,8 @@ public class FpsReport : MonoBehaviour
                          $"{separator.ToChar()}" + $"{enemies.Count}" +
                          $"{separator.ToChar()}" + $"{nodes.Count}" +
                          $"{separator.ToChar()}" + $"{PlayerSensorCount}" + 
-                         $"{separator.ToChar()}" + $"{nodes.Count+enemies.Count+PlayerSensorCount}" 
+                         $"{separator.ToChar()}" + $"{nodes.Count+enemies.Count+PlayerSensorCount}" + 
+                         $"{separator.ToChar()}" + $"{(updatingSensors? 1 : 0)}"
             );
         }
     }
@@ -172,7 +177,8 @@ public class FpsReport : MonoBehaviour
                 $"{separatorCharacter}Enemies" +
                 $"{separatorCharacter}Nodes" +
                 $"{separatorCharacter}Player" +
-                $"{separatorCharacter}TotalSensors"
+                $"{separatorCharacter}Total Sensors" +
+                $"{separatorCharacter}Updating Sensors"
             );
         }
     }
