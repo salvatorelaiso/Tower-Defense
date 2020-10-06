@@ -128,55 +128,29 @@ public class FpsReport : MonoBehaviour
     
     private string CreateFile(string extension, Separator separator)
     {
-        var i = 1;
         var suffix = "001";
         var separatorCharacter = separator.ToChar();
 
-        try
-        {
-            var fileInfo = directoryInfo
-                .EnumerateFiles(prefix + "*" + extension)
-                .OrderByDescending(info => info.Name)
-                .First();
+        var fileInfo = directoryInfo
+            .EnumerateFiles(prefix + "*" + extension)
+            .OrderBy(info => info.Name)
+            .LastOrDefault();
 
-            i = int.Parse(fileInfo.Name.Substring((fileInfo.Name.Length - suffix.Length - extension.Length), suffix.Length));
+        if (fileInfo != null)
+        {
+            var i = int.Parse(fileInfo.Name.Substring((fileInfo.Name.Length - suffix.Length - extension.Length), suffix.Length));
             i++;
             suffix = $"{i:000}";
-            var newFilePath =
-                sceneRelatedPath +
-                "/" + prefix + suffix + extension;
-            using (StreamWriter sw = File.CreateText(newFilePath))
-            {
-                sw.WriteLine(
-                    "FPS" +
-                    $"{separatorCharacter}Enemies" +
-                    $"{separatorCharacter}Nodes" +
-                    $"{separatorCharacter}Player" +
-                    $"{separatorCharacter}TotalSensors"
-                );
-                return newFilePath;
-            }
         }
-        catch (InvalidOperationException exception)
-        {
-            var newFilePath =
-                sceneRelatedPath +
-                "/" + prefix + suffix + extension;
-            using (StreamWriter sw = File.CreateText(newFilePath))
-            {
-                sw.WriteLine(
-                    "FPS" +
-                    $"{separatorCharacter}Enemies" +
-                    $"{separatorCharacter}Nodes" +
-                    $"{separatorCharacter}Player" +
-                    $"{separatorCharacter}TotalSensors"
-                );
-                return newFilePath;
-            }
-        }
+        var newFilePath =
+            sceneRelatedPath +
+            "/" + prefix + suffix + extension;
+        WriteHeading(newFilePath, separatorCharacter);
+        Debug.Log(newFilePath);
+        return newFilePath;
     }
-
-    private void UpdateText(String path, Separator separator)
+    
+    private void UpdateText(string path, Separator separator)
     {
         using (StreamWriter sw = File.AppendText(path))
         {
@@ -188,5 +162,18 @@ public class FpsReport : MonoBehaviour
             );
         }
     }
-    
+
+    private static void WriteHeading(string path, char separatorCharacter)
+    {
+        using (StreamWriter sw = File.CreateText(path))
+        {
+            sw.WriteLine(
+                "FPS" +
+                $"{separatorCharacter}Enemies" +
+                $"{separatorCharacter}Nodes" +
+                $"{separatorCharacter}Player" +
+                $"{separatorCharacter}TotalSensors"
+            );
+        }
+    }
 }
