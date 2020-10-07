@@ -18,7 +18,7 @@ public abstract class SensorData : MonoBehaviour
     protected virtual void UpdateData()
     {
         var position = transform.position;
-        x = (int) position.x / 5;
-        y = (int) position.z / -5;
+        x = Mathf.RoundToInt(position.x) / +5;
+        y = Mathf.RoundToInt(position.z) / -5;
     }
 }
