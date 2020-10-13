@@ -14,7 +14,6 @@ public class NodeSensorDataList : Singleton<NodeSensorDataList>
     public void Add(NodeSensorData item) =>
         list.Add(item);
 
-
     public bool Remove(NodeSensorData item) => 
         list.Remove(item);
 }

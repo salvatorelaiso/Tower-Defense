@@ -42,4 +42,6 @@ public class NodeSensorData : SensorData
         this.turretType = turretType;
         turretTypeInt = (int) this.turretType;
     }
+
+    public override string ToString() => $"node({x}, {y}).";
 }

@@ -4,10 +4,10 @@ using Utils.CustomAttributes.ReadOnly;
 public abstract class SensorData : MonoBehaviour
 {
     [ReadOnly] [SerializeField]
-    protected int x;
+    public int x;
 
     [ReadOnly] [SerializeField]
-    protected int y;
+    public int y;
 
     protected void Awake() =>
         UpdateData();
