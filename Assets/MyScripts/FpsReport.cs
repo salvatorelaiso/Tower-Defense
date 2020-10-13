@@ -150,7 +150,6 @@ public class FpsReport : MonoBehaviour
             sceneRelatedPath +
             "/" + prefix + suffix + extension;
         WriteHeading(newFilePath, separatorCharacter);
-        Debug.Log(newFilePath);
         return newFilePath;
     }
     

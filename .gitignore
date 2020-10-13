@@ -49,3 +49,7 @@ crashlytics-build.properties
 
 # Rider directory
 .idea/
+
+# Custom reports
+Assets/Reports/
+Assets/Reports.meta
