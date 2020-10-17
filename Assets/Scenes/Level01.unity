@@ -10478,12 +10478,10 @@ MonoBehaviour:
   m_Script: {fileID: 357554835, guid: acaf99db48d038241baa7e0fc48709d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enableBrain: 1
+  enableBrain: 0
   debug: 0
   maintainFactFile: 0
-  sensorsConfigurations:
-  - {fileID: 0}
-  - {fileID: 0}
+  sensorsConfigurations: []
   actuatorsConfigurations: []
   ASPFilePath: .\Assets\Resources\Brain.asp
   ASPFileTemplatePath: .\Assets\Resources\Brain_template.asp
