@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class SensorsDataListsManager : MonoBehaviour
 {
-    private List<EnemySensorData> enemies;
-    private List<NodeSensorData> nodes;
+    public List<EnemySensorData> enemies;
+    public List<NodeSensorData> nodes;
 
     private void Awake()
     {
-        enemies = EnemySensorDataList.Instance.List;
+        //enemies = EnemySensorDataList.Instance.List;
         nodes = NodeSensorDataList.Instance.List;
     }
     

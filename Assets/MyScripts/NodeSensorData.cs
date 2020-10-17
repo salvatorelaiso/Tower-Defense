@@ -15,12 +15,15 @@ public class NodeSensorData : SensorData
 {
     private Node node;
 
-    [ReadOnly] [SerializeField]
+    [ReadOnly][SerializeField]
     private TurretType turretType;
-    private int turretTypeInt;
+
+    [ReadOnly][SerializeField]
+    private string turretTypeName;
     
     private new void Awake()
     {
+        turretTypeName = "none";
         node = GetComponent<Node>();
         UpdateData();
     }
@@ -40,8 +43,8 @@ public class NodeSensorData : SensorData
     public void SetTurretType(TurretType turretType)
     {
         this.turretType = turretType;
-        turretTypeInt = (int) this.turretType;
+        var pascalCaseName = turretType.ToString();
+        turretTypeName = char.ToLower(pascalCaseName[0]) + pascalCaseName.Substring(1);
     }
 
-    public override string ToString() => $"node({x}, {y}).";
 }

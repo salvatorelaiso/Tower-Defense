@@ -53,7 +53,7 @@ public class Node : MonoBehaviour
         BuildTurret(buildManager.GetTurretToBuild());
     }
 
-    private void BuildTurret(TurretBlueprint blueprint)
+    public void BuildTurret(TurretBlueprint blueprint)
     {
         if (PlayerStats.Money < blueprint.cost)
         {

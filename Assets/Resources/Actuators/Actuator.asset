@@ -20,9 +20,9 @@ MonoBehaviour:
   - AI^y
   - AI
   - AI^y
-  - AI^turretTypeInt
+  - AI^turretTypeName
   - AI
-  - AI^turretTypeInt
+  - AI^turretTypeName
   propertiesNames: []
   gOType: 
   configurationName: Actuator

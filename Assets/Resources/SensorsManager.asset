@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SensorsManager
   m_EditorClassIdentifier: 
   confsToSerialize:
-  - {fileID: 11400000, guid: e76d7f0e25a60c0408c3c9b054e1aa01, type: 2}
-  - {fileID: 11400000, guid: e367381565f83b442808a765191422b9, type: 2}
-  - {fileID: 11400000, guid: 1b53d11a6fd56bb4091360d2692047f8, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
+  - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
+  - {fileID: 11400000, guid: 3eb416f2282ac3e43aeccb3dd0c0cfde, type: 2}
   configuredGameObject:
   - Sensors
   - GameMaster

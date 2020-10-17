@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Concurrent;
 using Utils;
 
-public class EnemySensorDataList : Singleton<EnemySensorDataList>
+public class EnemySensorDataDictionary : Singleton<EnemySensorDataDictionary>
 {
-    private readonly List<EnemySensorData> list = new List<EnemySensorData>();
+    private readonly ConcurrentDictionary<int, EnemySensorData> dictionary = new ConcurrentDictionary<int, EnemySensorData>();
 
-    public int Count => list.Count;
+    public int Count => dictionary.Count;
     
-    public List<EnemySensorData> List => list;
+    public ConcurrentDictionary<int, EnemySensorData> List => dictionary;
 
     public void Add(EnemySensorData item) =>
-        list.Add(item);
-
-
-    public bool Remove(EnemySensorData item) => 
-        list.Remove(item);
+        dictionary.TryAdd(dictionary.GetHashCode(), item);
+    
+    public bool Remove(EnemySensorData item) =>
+        dictionary.TryRemove(item.GetHashCode(), out item);
 }

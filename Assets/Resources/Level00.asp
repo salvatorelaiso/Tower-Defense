@@ -1,24 +1,3 @@
-% ===== Input ===== %
-    %enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(healt(V)))))).
-    %enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(x(V)))))).
-    %enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(y(V)))))).
-    %nodes(sensors(sensorsDataListsManager(nodes(X,nodeSensorData(turretTypeInt(V)))))).
-    %nodes(sensors(sensorsDataListsManager(nodes(X,nodeSensorData(x(V)))))).
-    %nodes(sensors(sensorsDataListsManager(nodes(X,nodeSensorData(y(V)))))).
-    %player(gameMaster(playerStats(money(X)))).
-    %player(gameMaster(playerStats(lives(X)))).
-
-
-% Directives not supported in dlv2
-    % #const none = 0.
-    % #const standardTurret = 1.
-    % #const standardTurretUpgrded = 2.
-    % #const missileLauncher = 3.
-    % #const missileLauncherUpgraded = 4.
-    % #const laserBeamer = 5.
-    % #const laserBeamerUpgraded = 6.
-
-
 % ===== Input Transforming ===== %
     enemy(ID, X, Y, Healt) :-
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(healt(Healt)))))),
@@ -26,54 +5,89 @@
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(y(Y)))))).
 
     node(ID, X, Y, TurretType) :-
-        nodes(sensors(sensorsDataListsManager(nodes(ID,nodeSensorData(turretTypeInt(TurretType)))))),
+        nodes(sensors(sensorsDataListsManager(nodes(ID,nodeSensorData(turretTypeName(TurretType)))))),
         nodes(sensors(sensorsDataListsManager(nodes(ID,nodeSensorData(x(X)))))),
         nodes(sensors(sensorsDataListsManager(nodes(ID,nodeSensorData(y(Y)))))).
 
     money(Value) :- player(gameMaster(playerStats(money(Value)))).
 
 
-% possibleBuild(X, Y, standardTurret) :- node(_, X, Y, none), money >= Price, cost(standardTurret, Price).
-% possibleBuild(X, Y, missileLauncher) :- node(_, X, Y, none), money >= Price, cost(missileLauncher, Price).
-% possibleBuild(X, Y, laserBeamer) :- node(_, X, Y, none), money >= Price, cost(laserBeamer, Price).
-possibleBuild(X, Y, 1) :- node(_, X, Y, 0), money >= Price, cost(1, Price).
-possibleBuild(X, Y, 3) :- node(_, X, Y, 0), money >= Price, cost(3, Price).
-possibleBuild(X, Y, 5) :- node(_, X, Y, 0), money >= Price, cost(5, Price).
+% List possible builds
+possibleBuild(X, Y, standardTurret) :- node(_, X, Y, none), money >= Price, cost(standardTurret, Price), money(Money).
+possibleBuild(X, Y, missileLauncher) :- node(_, X, Y, none), money >= Price, cost(missileLauncher, Price), money(Money).
+possibleBuild(X, Y, laserBeamer) :- node(_, X, Y, none), money >= Price, cost(laserBeamer, Price), money(Money).
 
+% List possible upgrades
+possibleBuild(X, Y, standardTurretUpgraded) :- node(_, X, Y, standardTurret), money >= Price, cost(standardTurretUpgraded, Price), money(Money).
+possibleBuild(X, Y, missileLauncherUpgraded) :- node(_, X, Y, missileLauncher), money >= Price, cost(missileLauncherUpgraded, Price), money(Money).
+possibleBuild(X, Y, laserBeamerUpgraded) :- node(_, X, Y, laserBeamerUpgraded), money >= Price, cost(laserBeamerUpgraded, Price), money(Money).
 
-% possibleBuild(X, Y, standardTurretUpgrded) :- node(_, X, Y, standardTurret), money >= Price, cost(standardTurretUpgraded, Price).
-% possibleBuild(X, Y, missileLauncherUpgraded) :- node(_, X, Y, missileLauncher), money >= Price, cost(missileLauncherUpgraded, Price).
-% possibleBuild(X, Y, laserBeamerUpgraded) :- node(_, X, Y, laserBeamerUpgraded), money >= Price, cost(laserBeamerUpgraded, Price).
-possibleBuild(X, Y, 2) :- node(_, X, Y, 1), money >= Price, cost(2, Price).
-possibleBuild(X, Y, 4) :- node(_, X, Y, 3), money >= Price, cost(4, Price).
-possibleBuild(X, Y, 6) :- node(_, X, Y, 5), money >= Price, cost(6, Price).
-
+% Generate all possible plans, excluding multiple builds in the same position
 build(X, Y, Turret) | out(X, Y, Turret) :- possibleBuild(X, Y, Turret).
 :- build(X, Y, TurretA), build(X, Y, TurretB), TurretA != TurretB.
 
+% Ensure the total amount of money necessary doesn't exceed the player's actual money
 expense(Money) :- build(_, _, Turret), cost(Turret, Money).
-
-% evaluate to use #optimize instead of the following
-:~ money(Amount), #sum{ Price : expense(Price) } = TotalToPay, RemainingMoney = Amount - TotalToPay. [RemainingMoney@2]
 :- money(Amount), #sum{ Price : expense(Price) } = TotalToPay, Amount < TotalToPay.
 
-distanceNodePath(NodeID, 1) :- node(NodeID, NodeX, NodeY, _), path(PathX, PathY), adjacent(NodeX, NodeY, PathX, PathY).
-distanceNodePath(NodeID, Distance) :- node(NodeID, NodeX, NodeY, _), node(AdjacentNodeID, AdjacentNodeX, AdjacentNodeY, _), adjacent(NodeX, NodeY, AdjacentNodeX, AdjacentNodeY), 
-        Distance = AdjacentNodeDistance + 1, distanceNodePath(AdjacentNodeID, AdjacentNodeDistance), Distance < MaxDistance, maxDistance(MaxDistance).
+% Maximize the expense
+:~ money(Amount), #sum{ Price : expense(Price) } = TotalToPay, RemainingMoney = Amount - TotalToPay. [RemainingMoney@2]
 
-minDistanceNodePath(NodeID, MinDistance) :- node(NodeID, _, _, _), #min{ Distance : distanceNodePath(NodeID, Distance) } = MinDistance.
+nodePositionCoefficient(NodeX, NodeY, Value) :-
+    node(_, NodeX, NodeY, _),
+    #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Value.
+:~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 8 - Value. [AmountToPay@1]
 
-
-distanceNodeEnd(NodeID, 1) :- node(NodeID, NodeX, NodeY, _), end(X, Y), adjacent(NodeX, NodeY, X, Y).
-
-
-:~ build(X, Y, _), node(NodeID, X, Y, _), minDistanceNodePath(NodeID, Distance). [Distance@1]
-
+% Take only one action from the plan to put it in the actuator
+action(X, Y, Turret) | out(X, Y, Turret) :- build(X, Y, Turret).
+:- #count{X, Y, Turret : action(X, Y, Turret)} > 1.
 
 setOnActuator(actuator(brain(aI(x(X))))):- build(X, _, _).
 setOnActuator(actuator(brain(aI(y(Y))))):- build(_, Y, _).
-setOnActuator(actuator(brain(aI(turretTypeInt(Turret))))):- build(_, _, Turret).
+setOnActuator(actuator(brain(aI(turretTypeName(Turret))))):- build(_, _, Turret).
 
+
+% cost
+    cost(standardTurret, 100). 
+    cost(standardTurretUpgraded, 60).
+    cost(missileLauncher, 250).
+    cost(missileLauncherUpgraded, 150).
+    cost(laserBeamer, 350).
+    cost(laserBeamerUpgraded, 250).
+    
+% others
+    start(1, 1). end(12, 6).
+
+% path
+    path( 1,1).
+	path( 2,1).
+	path( 3,1).
+	path( 3,3).
+	path( 3,4).
+	path( 3,5).
+	path( 3,6).
+	path( 4,1).
+	path( 4,3).
+	path( 4,6).
+    path( 5,1).
+	path( 5,3).
+	path( 5,6).
+	path( 6,1).
+	path( 6,2).
+	path( 6,3).
+	path( 6,6).
+	path( 7,6).
+	path( 8,6).
+	path( 9,6).
+    path(10,3).
+	path(10,4).
+	path(10,5).
+	path(10,6).
+	path(11,3).
+	path(12,3).
+	path(12,4).
+	path(12,5).
+	path(12,6).
 
 % adjacent
     adjacent( 0, 0,  0, 1).
@@ -844,53 +858,3 @@ setOnActuator(actuator(brain(aI(turretTypeInt(Turret))))):- build(_, _, Turret).
     adjacent(13, 7, 12, 6).
     adjacent(13, 7, 12, 7).
     adjacent(13, 7, 13, 6).
-% path
-    path( 1,1).
-	path( 2,1).
-	path( 3,1).
-	path( 3,3).
-	path( 3,4).
-	path( 3,5).
-	path( 3,6).
-	path( 4,1).
-	path( 4,3).
-	path( 4,6).
-    path( 5,1).
-	path( 5,3).
-	path( 5,6).
-	path( 6,1).
-	path( 6,2).
-	path( 6,3).
-	path( 6,6).
-	path( 7,6).
-	path( 8,6).
-	path( 9,6).
-    path(10,3).
-	path(10,4).
-	path(10,5).
-	path(10,6).
-	path(11,3).
-	path(12,3).
-	path(12,4).
-	path(12,5).
-	path(12,6).
-% cost
-    % cost(standardTurret, 100). 
-    % cost(standardTurretUpgraded, 60).
-    % cost(missileLauncher, 250).
-    % cost(missileLauncherUpgraded, 150).
-    % cost(laserBeamer, 350).
-    % cost(laserBeamerUpgraded, 250).
-    cost(1, 100). 
-    cost(2, 60).
-    cost(3, 250).
-    cost(4, 150).
-    cost(5, 350).
-    cost(6, 250).
-% others
-    start(1, 1). end(12, 6). maxDistance(14).
-
-node(0, 0, 0, 0).
-node(1, 1, 0, 0).
-node(2, 2, 0, 1).
-money(1000).

@@ -23,9 +23,9 @@ MonoBehaviour:
   advancedConf:
   - objType: NodeSensorData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     toSave:
-    - turretTypeInt
-    - x
-    - y
+    - turretTypeName
+    - X
+    - Y
     propertyName: SensorsDataListsManager^nodes
     name: NodeSensorData
     propertyType: LIST
