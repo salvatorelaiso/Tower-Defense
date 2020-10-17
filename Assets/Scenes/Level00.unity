@@ -4604,9 +4604,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b19402a4f2893242854895b086bf98b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelToUnlock: 2
+  levelToUnlock: 1
   menuSceneName: MainMenu
-  nextLevel: Level02
+  nextLevel: Level01
   sceneFader: {fileID: 527505339}
 --- !u!95 &788061276
 Animator:

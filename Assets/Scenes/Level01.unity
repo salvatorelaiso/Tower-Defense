@@ -1938,7 +1938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startLives: 1
-  startMoney: 99999
+  startMoney: 1000
 --- !u!114 &196616391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8787,8 +8787,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gOConfigurations:
-  - {fileID: 11400000, guid: e76d7f0e25a60c0408c3c9b054e1aa01, type: 2}
-  - {fileID: 11400000, guid: e367381565f83b442808a765191422b9, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
+  - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
   localNames:
   - Enemies
   - Nodes
@@ -8805,6 +8805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58b32ffd7ce3465ebb13976579809475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemies: []
+  nodes: []
 --- !u!114 &1060836208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8818,8 +8820,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gOConfigurations:
-  - {fileID: 11400000, guid: e76d7f0e25a60c0408c3c9b054e1aa01, type: 2}
-  - {fileID: 11400000, guid: e367381565f83b442808a765191422b9, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
+  - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
   localNames:
   - Enemies
   - Nodes
@@ -10480,8 +10482,8 @@ MonoBehaviour:
   debug: 0
   maintainFactFile: 0
   sensorsConfigurations:
-  - {fileID: 11400000, guid: e76d7f0e25a60c0408c3c9b054e1aa01, type: 2}
-  - {fileID: 11400000, guid: e367381565f83b442808a765191422b9, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
   actuatorsConfigurations: []
   ASPFilePath: .\Assets\Resources\Brain.asp
   ASPFileTemplatePath: .\Assets\Resources\Brain_template.asp
