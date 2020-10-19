@@ -7367,7 +7367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enableBrain: 1
   debug: 0
-  maintainFactFile: 0
+  maintainFactFile: 1
   sensorsConfigurations:
   - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
