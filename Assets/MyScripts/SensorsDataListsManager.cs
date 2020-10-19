@@ -8,7 +8,7 @@ public class SensorsDataListsManager : MonoBehaviour
 
     private void Awake()
     {
-        //enemies = EnemySensorDataList.Instance.List;
+        enemies = EnemySensorDataList.Instance.List;
         nodes = NodeSensorDataList.Instance.List;
     }
     

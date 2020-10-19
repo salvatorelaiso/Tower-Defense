@@ -16,7 +16,7 @@ public class EnemySensorData : SensorData
     }
 
     private void Start() =>
-        EnemySensorDataDictionary.Instance.Add(this);
+        EnemySensorDataList.Instance.Add(this);
     
 
     protected override void UpdateData()
@@ -26,6 +26,6 @@ public class EnemySensorData : SensorData
     }
 
     private void OnDestroy() =>
-        EnemySensorDataDictionary.Instance?.Remove(this);
+        EnemySensorDataList.Instance?.Remove(this);
         
 }

@@ -47,7 +47,7 @@ public class FpsReport : MonoBehaviour
     private bool brainActive;
     private int updateFrequency;
     
-    private EnemySensorDataDictionary enemies;
+    private EnemySensorDataList enemies;
     private NodeSensorDataList nodes;
     private const int PlayerSensorCount = 1;
 
@@ -95,7 +95,7 @@ public class FpsReport : MonoBehaviour
     {
         brainActive = brain.enabled && brain.enableBrain;
         updateFrequency = (int) brain.sensorsUpdateFrequencyMS;
-        enemies = EnemySensorDataDictionary.Instance;
+        enemies = EnemySensorDataList.Instance;
         nodes = NodeSensorDataList.Instance;
         sceneName = SceneManager.GetActiveScene().name;
         sceneRelatedPath = Path + sceneName;
