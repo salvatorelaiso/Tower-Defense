@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6569566}
   - component: {fileID: 2371668}
   - component: {fileID: 114000010605076798}
-  - component: {fileID: 6466757569883098683}
+  - component: {fileID: -329980225917016058}
   m_Layer: 8
   m_Name: Node
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MonoBehaviour:
     prefab: {fileID: 0}
     upgradeCost: 0
     upgradedPrefab: {fileID: 0}
---- !u!114 &6466757569883098683
+--- !u!114 &-329980225917016058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,3 +132,4 @@ MonoBehaviour:
   x: 0
   y: 0
   turretType: 0
+  turretTypeName: 
