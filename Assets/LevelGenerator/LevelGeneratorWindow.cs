@@ -36,7 +36,7 @@ namespace LevelGenerator
             columns = EditorGUILayout.IntSlider("Columns", columns, MinColumns, MaxColumns);
             if (GUILayout.Button("Generate"))
             {
-                LevelGenerator.CloneLevel(levelNumber);
+                LevelGenerator.CloneLevel(levelNumber, rows, columns);
             }
         }
 
