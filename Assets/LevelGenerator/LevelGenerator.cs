@@ -38,16 +38,20 @@ namespace LevelGenerator
             var start = Resources.Load("LevelGenerator/Prefabs/START");
             var end = Resources.Load("LevelGenerator/Prefabs/END");
             var node = Resources.Load("LevelGenerator/Prefabs/Node");
+            var ground = Resources.Load("LevelGenerator/Prefabs/Ground");
+            var connector = Resources.Load("LevelGenerator/Prefabs/Connector");
             const float nodeDim = 5f;
-
             var nodes = GameObject.Find("Nodes");
+            var environment = GameObject.Find("Environment");
             
             bool[,] paths = PathGenerator.GeneratePath(rows, columns);
             
             for (int i = 0; i < rows; i++)
             {
+                // Create Empty GameObject under Nodes
                 var row = new GameObject($"Row ({i})");
                 row.transform.parent = nodes.transform;
+                
                 for (int j = 0; j < columns; j++)
                 {
                     // START position
@@ -59,6 +63,13 @@ namespace LevelGenerator
                             rotation: Quaternion.identity) as GameObject;
                         obj.name = "START";
                         obj.transform.SetSiblingIndex(nodes.transform.GetSiblingIndex()+1);
+                        position.y = 0f;
+                        Object.Instantiate(ground,
+                                parent: environment.transform,
+                                position: position,
+                                rotation: Quaternion.identity)
+                            .name = "Ground";
+                        GameObject.Find("GameMaster").GetComponent<WaveSpawner>().spawnPoint = obj.transform;
                     }
                     
                     // END position
@@ -70,13 +81,26 @@ namespace LevelGenerator
                             rotation: Quaternion.identity) as GameObject;
                         obj.name = "END";
                         obj.transform.SetSiblingIndex(nodes.transform.GetSiblingIndex()+2);
+                        position.y = 0f;
+                        Object.Instantiate(ground,
+                                parent: environment.transform,
+                                position: position,
+                                rotation: Quaternion.identity)
+                            .name = "Ground";
                     }
 
+                    // Path
                     else if (paths[i, j])
                     {
-                        
+                        var position = new Vector3(j * nodeDim, 0, -i * nodeDim);
+                        Object.Instantiate(ground,
+                                parent: environment.transform,
+                                position: position,
+                                rotation: Quaternion.identity)
+                            .name = "Ground";
                     }
                     
+                    // Node
                     else 
                     {
                         var position = new Vector3(j * nodeDim, 0, -i * nodeDim);
@@ -90,7 +114,7 @@ namespace LevelGenerator
                 }
             }
             
-            // Fid BottoCanvas Position
+            // Fix BottomCanvas Position
             var bottomCanvas = GameObject.Find("BottomCanvas");
             var bottomCanvasTransformPosition = bottomCanvas.transform.position;
             bottomCanvasTransformPosition.z = -(rows + 1) * nodeDim;
