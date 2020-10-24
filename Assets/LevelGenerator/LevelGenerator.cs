@@ -89,6 +89,12 @@ namespace LevelGenerator
                     
                 }
             }
+            
+            // Fid BottoCanvas Position
+            var bottomCanvas = GameObject.Find("BottomCanvas");
+            var bottomCanvasTransformPosition = bottomCanvas.transform.position;
+            bottomCanvasTransformPosition.z = -(rows + 1) * nodeDim;
+            bottomCanvas.transform.position = bottomCanvasTransformPosition;
         }
     }
 }
