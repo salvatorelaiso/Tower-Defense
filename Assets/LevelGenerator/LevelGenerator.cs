@@ -42,6 +42,8 @@ namespace LevelGenerator
 
             var nodes = GameObject.Find("Nodes");
             
+            bool[,] paths = PathGenerator.GeneratePath(rows, columns);
+            
             for (int i = 0; i < rows; i++)
             {
                 var row = new GameObject($"Row ({i})");
@@ -69,8 +71,13 @@ namespace LevelGenerator
                         obj.name = "END";
                         obj.transform.SetSiblingIndex(nodes.transform.GetSiblingIndex()+2);
                     }
+
+                    else if (paths[i, j])
+                    {
+                        
+                    }
                     
-                    else
+                    else 
                     {
                         var position = new Vector3(j * nodeDim, 0, -i * nodeDim);
                         Object.Instantiate(node,
@@ -79,6 +86,7 @@ namespace LevelGenerator
                                 rotation: Quaternion.identity)
                             .name = $"Node ({j})";
                     }
+                    
                 }
             }
         }
