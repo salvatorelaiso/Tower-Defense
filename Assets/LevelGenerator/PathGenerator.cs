@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Random = System.Random;
 
 namespace LevelGenerator
@@ -13,10 +12,7 @@ namespace LevelGenerator
     
     internal static class PathGenerator
     {
-        private enum Direction
-        {
-            Left, Up, Right, Down
-        }
+
         
         private const int EdgeDimension = 1;
         
