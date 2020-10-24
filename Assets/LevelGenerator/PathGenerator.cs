@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = System.Random;
 
 namespace LevelGenerator
 {
@@ -48,6 +49,9 @@ namespace LevelGenerator
         {
             // Iterate over all possibilities
             var directions = GetAvailableDirections(matrix, rows, columns, row, col);
+            
+            Shuffle(directions);
+            
             foreach (var direction in directions)
             {
                 // Copy the matrix to explore this branch 
@@ -65,25 +69,12 @@ namespace LevelGenerator
                     newMatrix[xUnusable, yUnusable] = Cell.Unusable;
                 }
 
-                var s = "\n";
-                for (int i = 0; i < rows; i++)
-                {
-                
-                    for (int j = 0; j < columns; j++)
-                    {
-                        s += $" {(int)newMatrix[i, j]} " ;
-                    }
-                    s += "\n";
-                }
-                Debug.Log(s);
-                
                 if (IsPathConnected(rowDestination, colDestination, rows-1, columns-1))
                 {
                     return newMatrix;
                 }
                 var path = Dig(newMatrix, rows, columns, rowDestination, colDestination);
                 if (path != null) return path;
-                //return Dig(newMatrix, width, height, xDest, yDest);
             }
             return null;
         }
@@ -143,6 +134,19 @@ namespace LevelGenerator
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
+        }
+        
+        private static void Shuffle<T>(this IList<T> list)  
+        {  
+            var rng = new Random();
+            int n = list.Count;  
+            while (n > 1) {  
+                n--;  
+                int k = rng.Next(n + 1);  
+                T value = list[k];  
+                list[k] = list[n];  
+                list[n] = value;  
+            }  
         }
     }
 }
