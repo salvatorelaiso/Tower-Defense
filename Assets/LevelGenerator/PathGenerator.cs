@@ -1,148 +1,104 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Random = System.Random;
+using UnityEngine;
 
 namespace LevelGenerator
 {
-    internal enum Cell
-    {
-        Empty, Path, Unusable 
-    }
-    
     internal static class PathGenerator
     {
-
-        
         private const int EdgeDimension = 1;
-        
-        internal static bool[,] GeneratePath(int rows, int columns)
-        {
-            var internalRows = rows - EdgeDimension * 2;
-            var internalColumns = columns - EdgeDimension * 2;
-            var matrix = new Cell[internalRows, internalColumns];
-            
-            // START
-            matrix[0, 0] = Cell.Path;
-            // END
-            matrix[internalRows - 1, internalColumns - 1] = Cell.Path;
-            
-            var path = Dig(matrix, internalRows, internalColumns, 0, 0);
-            var isPath = new bool[rows, columns];
+        private enum CellStatus { Usable, Unusable }
 
-            for (int i = 0; i < internalRows; i++)
-            {
-                for (int j = 0; j < internalColumns; j++)
-                {
-                    isPath[i + 1, j + 1] = path[i, j] == Cell.Path;
-                }
-            }
-            
-            return isPath;
+        public static Level Simple(this Level level)
+        {
+            var statuses = InitStatus(level);
+            return FindPath(level, statuses, Level.StartPositionX, Level.StartPositionY);
+        }
+        
+        public static Level Random(this Level level)
+        {
+            var statuses = InitStatus(level);
+            return FindPath(level, statuses, Level.StartPositionX, Level.StartPositionY, true);
         }
 
-        private static Cell[,] Dig(Cell[,] matrix, int rows, int columns, int row, int col)
+        private static CellStatus[,] InitStatus(Level level)
         {
-            // Iterate over all possibilities
-            var directions = GetAvailableDirections(matrix, rows, columns, row, col);
-            
-            Shuffle(directions);
-            
-            foreach (var direction in directions)
+            var statuses = new CellStatus[level.Width, level.Height];
+            statuses[Level.StartPositionX, Level.StartPositionY] = CellStatus.Unusable;
+            statuses[level.EndPositionX, level.EndPositionY] = CellStatus.Unusable;
+            for (int y = 0; y < level.Height; y++)
             {
-                // Copy the matrix to explore this branch 
-                var newMatrix = new Cell[rows, columns];
-                Array.Copy(matrix, newMatrix, matrix.Length);
+                statuses[0, y] = CellStatus.Unusable;
+                statuses[level.Width - EdgeDimension, y] = CellStatus.Unusable;
+            }
+            for (int x = 0; x < level.Width; x++)
+            {
+                statuses[x, 0] = CellStatus.Unusable;
+                statuses[x, level.Height - EdgeDimension] = CellStatus.Unusable;
+            }
+            return statuses;
+        }
 
-                // Set the destination as path
-                var (rowDestination, colDestination) = GetDestination(row, col, direction);
-                newMatrix[rowDestination, colDestination] = Cell.Path;
-                
+        private static Level FindPath(Level level, CellStatus[,] statuses, int x, int y, bool random = false)
+        {
+            if (IsConnected(x, y, level.EndPositionX, level.EndPositionY)) return level;
+
+            var availableDirections = GetAvailableDirections(level, statuses, x, y);
+            if (ReachedDeadEnd(availableDirections)) return null;
+
+            if (random) availableDirections.Shuffle();
+            
+            foreach (var direction in availableDirections)
+            {
+                // Make clones in order to explore this branch without side effects on the original Objects
+                var clonedLevel = (Level)level.Clone();
+                var clonedStatuses = new CellStatus[level.Width, level.Height];
+                Array.Copy(statuses, clonedStatuses, statuses.Length);
+
+                // Set the destination Cell as Path
+                var (destinationX, destinationY) = direction.NextPosition(x, y);
+                clonedLevel.SetPathAt(destinationX, destinationY);
+                clonedStatuses[destinationX, destinationY] = CellStatus.Unusable;
+      
                 // Set the other destinations as unusable
-                foreach (var otherDirection in directions.Where(dir => dir != direction))
+                foreach (var otherDirection in availableDirections.Where(dir => dir != direction))
                 {
-                    var (xUnusable, yUnusable) = GetDestination(row, col, otherDirection);
-                    newMatrix[xUnusable, yUnusable] = Cell.Unusable;
+                    var (unusableX, unusableY) = otherDirection.NextPosition(x, y);
+                    clonedStatuses[unusableX, unusableY] = CellStatus.Unusable;
                 }
-
-                if (IsPathConnected(rowDestination, colDestination, rows-1, columns-1))
-                {
-                    return newMatrix;
-                }
-                var path = Dig(newMatrix, rows, columns, rowDestination, colDestination);
+                
+                // Recursive call
+                var path = FindPath(clonedLevel, clonedStatuses, destinationX, destinationY, random);
+                // If path is not null means we have reached the end
                 if (path != null) return path;
             }
+
             return null;
         }
 
-        private static bool IsPathConnected(int row, int col, int rowDestination, int colDestination) =>
-            Math.Abs(row - rowDestination) + Math.Abs(col - colDestination) == 1;
-
-        private static List<Direction> GetAvailableDirections(Cell[,] matrix, int rows, int columns, int row, int col)
+        private static List<Direction> GetAvailableDirections(Level level, CellStatus[,] statuses, int originX, int originY)
         {
             var directions = new List<Direction>();
-            if (row - 1 >= 0)
+            foreach (var direction in (Direction[]) Enum.GetValues(typeof(Direction)))
             {
-                if (matrix[row - 1, col] == Cell.Empty)
+                var (destinationX, destinationY) = direction.NextPosition(originX, originY);
+                
+                if ( 
+                    Utils.IsInsideBoundaries(destinationX, destinationY, level.Width, level.Height) &&
+                    statuses[destinationX, destinationY] == CellStatus.Usable)
                 {
-                    directions.Add(Direction.Left);
+                    directions.Add(direction);
                 }
-            }
-            if (row + 1 < rows)
-            {
-                if (matrix[row + 1, col] == Cell.Empty)
-                {
-                    directions.Add(Direction.Right);
-                }        
-            }
-            if (col - 1 >= 0)
-            {
-                if (matrix[row, col - 1] == Cell.Empty)
-                {
-                    directions.Add(Direction.Down);
-                }            
-            }
-            if (col + 1 < columns)
-            {
-                if (matrix[row, col + 1] == Cell.Empty)
-                {
-                    directions.Add(Direction.Up);
-                }            
             }
             return directions;
         }
+        
+        private static bool IsConnected(int x1, int y1, int x2, int y2) =>
+            Math.Abs(x1 - x2) + Math.Abs(y1 - y2) == 1;
 
-        private static Tuple<int, int> GetDestination(Tuple<int, int> actualPosition, Direction direction) =>
-            GetDestination(actualPosition.Item1, actualPosition.Item2, direction);
-        
-        private static Tuple<int, int> GetDestination(int x, int y, Direction direction)
-        {
-            switch (direction)
-            {
-                case Direction.Left:
-                    return new Tuple<int, int>(x - 1, y);
-                case Direction.Up:
-                    return new Tuple<int, int>(x, y + 1);
-                case Direction.Right:
-                    return new Tuple<int, int>(x + 1, y);
-                case Direction.Down:
-                    return new Tuple<int, int>(x, y - 1);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
-            }
-        }
-        
-        private static void Shuffle<T>(this IList<T> list)  
-        {  
-            var rng = new Random();
-            int n = list.Count;  
-            while (n > 1) {  
-                n--;  
-                int k = rng.Next(n + 1);  
-                T value = list[k];  
-                list[k] = list[n];  
-                list[n] = value;  
-            }  
-        }
+        private static bool ReachedDeadEnd(IEnumerable<Direction> availableDirections) =>
+            !availableDirections.Any();
+
     }
 }
