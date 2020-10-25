@@ -15,10 +15,10 @@ namespace LevelGenerator
         
         private int rows;
         private const int MinRows =   4;
-        private const int MaxRows = 100;
+        private const int MaxRows =  20;
         private int columns;
         private const int MinColumns =   4;
-        private const int MaxColumns = 100;
+        private const int MaxColumns =  20;
 
         // Add menu named "Generator" to the Window menu
         [MenuItem("Window/Generator")]
