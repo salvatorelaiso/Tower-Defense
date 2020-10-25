@@ -28,6 +28,7 @@ namespace LevelGenerator
             {
                 var newScene = EditorSceneManager.OpenScene(dest, OpenSceneMode.Single);
                 Init(newScene, rows, columns);
+                EditorSceneManager.MarkSceneDirty(newScene);
             }
             else
             {
