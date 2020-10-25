@@ -74,8 +74,9 @@ namespace LevelGenerator
             cells[EndPositionX, EndPositionY].Content = CellContent.End;
         }
 
-        public void GenerateRandomPath() {
-            var generated = this.Random();
+        public void GeneratePath(bool random = false)
+        {
+            var generated = PathGenerator.Generate(this, random);
             for (int index = 0; index < cells.Length; index++)
             {
                 var x = index % Width;

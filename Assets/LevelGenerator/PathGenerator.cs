@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace LevelGenerator
 {
@@ -10,16 +9,10 @@ namespace LevelGenerator
         private const int EdgeDimension = 1;
         private enum CellStatus { Usable, Unusable }
 
-        public static Level Simple(this Level level)
+        public static Level Generate(Level level, bool random = false)
         {
             var statuses = InitStatus(level);
-            return FindPath(level, statuses, Level.StartPositionX, Level.StartPositionY);
-        }
-        
-        public static Level Random(this Level level)
-        {
-            var statuses = InitStatus(level);
-            return FindPath(level, statuses, Level.StartPositionX, Level.StartPositionY, true);
+            return FindPath(level, statuses, Level.StartPositionX, Level.StartPositionY, random);
         }
 
         private static CellStatus[,] InitStatus(Level level)
@@ -40,7 +33,7 @@ namespace LevelGenerator
             return statuses;
         }
 
-        private static Level FindPath(Level level, CellStatus[,] statuses, int x, int y, bool random = false)
+        private static Level FindPath(Level level, CellStatus[,] statuses, int x, int y, bool random)
         {
             if (IsConnected(x, y, level.EndPositionX, level.EndPositionY)) return level;
 

@@ -39,7 +39,7 @@ namespace LevelGenerator
         {
             var (width, height) = (columns, rows);
             var level = new Level(width, height);
-            level.GenerateRandomPath();
+            level.GeneratePath(random: true);
 
             //bool[,] paths = PathGenerator.GeneratePath(level);
             //bool[,] waypoints = WaypointGenerator.GenerateWaypoints(paths, rows, columns);
