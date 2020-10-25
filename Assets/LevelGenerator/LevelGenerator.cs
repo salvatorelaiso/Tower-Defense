@@ -46,6 +46,7 @@ namespace LevelGenerator
             //bool[,] paths = PathGenerator.GeneratePath(level);
             //bool[,] waypoints = WaypointGenerator.GenerateWaypoints(paths, rows, columns);
 
+            var gameMaster = GameObject.Find("GameMaster");
             var nodes = GameObject.Find("Nodes");
             var environment = GameObject.Find("Environment");
 
@@ -68,8 +69,10 @@ namespace LevelGenerator
                             Generate(content, rowIndex, columnIndex);
                             break;
                         case CellContent.Start:
-                            Generate(content, rowIndex, columnIndex);
+                            var start = (GameObject) Generate(content, rowIndex, columnIndex);
                             Generate(CellContent.Path, rowIndex, columnIndex);
+                            // Fix unassigned reference in GameMaster
+                            gameMaster.GetComponent<WaveSpawner>().spawnPoint = start.transform;
                             break;
                         case CellContent.End:
                             Generate(content, rowIndex, columnIndex);
@@ -85,14 +88,15 @@ namespace LevelGenerator
                 var bottomCanvasTransformPosition = bottomCanvas.transform.position;
                 bottomCanvasTransformPosition.z = -(rows + 1) * NodeDimension;
                 bottomCanvas.transform.position = bottomCanvasTransformPosition;
+                
             }
         }
 
-        private static void Generate(CellContent content, int row, int column)
+        private static Object Generate(CellContent content, int row, int column)
         {
             var y = content == CellContent.Start || content == CellContent.End ? 2.5f : 0f;
             var position = new Vector3(column * NodeDimension, y, -row * NodeDimension);
-            Object.Instantiate(Utils.RelatedResource(content),
+            return Object.Instantiate(Utils.RelatedResource(content),
                 position: position,
                 rotation: Quaternion.identity);
         }
