@@ -17,7 +17,7 @@ namespace LevelGenerator
 
         private const float NodeDimension = 5f;
 
-        public static void CloneLevel(int levelIndex, int rows, int columns)
+        public static void CloneLevel(int levelIndex, int rows, int columns, bool random)
         {
             var suffix = $"{levelIndex:00}";
             var levelName = LevelString + suffix + LevelExtension;
@@ -27,8 +27,9 @@ namespace LevelGenerator
             if (EditorSceneManager.SaveScene(templateLevel, dest, true))
             {
                 var newScene = EditorSceneManager.OpenScene(dest, OpenSceneMode.Single);
-                Init(newScene, rows, columns);
+                Init(newScene, rows, columns, random);
                 EditorSceneManager.MarkSceneDirty(newScene);
+                EditorSceneManager.SaveScene(newScene);
             }
             else
             {
@@ -36,11 +37,11 @@ namespace LevelGenerator
             }
         }
 
-        private static void Init(Scene newScene, int rows, int columns)
+        private static void Init(Scene newScene, int rows, int columns, bool random)
         {
             var (width, height) = (columns, rows);
             var level = new Level(width, height);
-            level.GeneratePath(random: true);
+            level.GeneratePath(random);
 
             //bool[,] paths = PathGenerator.GeneratePath(level);
             //bool[,] waypoints = WaypointGenerator.GenerateWaypoints(paths, rows, columns);

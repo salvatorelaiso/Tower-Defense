@@ -20,6 +20,8 @@ namespace LevelGenerator
         private const int MinColumns =   4;
         private const int MaxColumns =  20;
 
+        private bool random;
+
         // Add menu named "Generator" to the Window menu
         [MenuItem("Window/Generator")]
         private static void Init()
@@ -34,9 +36,10 @@ namespace LevelGenerator
             GUILayout.Label($"Level {levelNumber:00}", EditorStyles.boldLabel);
             rows = EditorGUILayout.IntSlider("Rows", rows, MinRows, MaxRows);
             columns = EditorGUILayout.IntSlider("Columns", columns, MinColumns, MaxColumns);
+            random = EditorGUILayout.Toggle("Random Path", random);
             if (GUILayout.Button("Generate"))
             {
-                LevelGenerator.CloneLevel(levelNumber, rows, columns);
+                LevelGenerator.CloneLevel(levelNumber, rows, columns, random);
             }
         }
 
