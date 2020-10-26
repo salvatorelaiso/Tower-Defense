@@ -16,6 +16,7 @@ namespace LevelGenerator
         private const string LevelExtension = ".unity";
 
         private const float NodeDimension = 5f;
+        private const float WaypointHeight = 2f;
 
         public static void CloneLevel(int levelIndex, int rows, int columns, bool random)
         {
@@ -42,9 +43,7 @@ namespace LevelGenerator
             var (width, height) = (columns, rows);
             var level = new Level(width, height);
             level.GeneratePath(random);
-
-            //bool[,] paths = PathGenerator.GeneratePath(level);
-            //bool[,] waypoints = WaypointGenerator.GenerateWaypoints(paths, rows, columns);
+            level.GenerateWaypoints();
 
             var gameMaster = GameObject.Find("GameMaster");
             var nodes = GameObject.Find("Nodes");
@@ -58,7 +57,7 @@ namespace LevelGenerator
 
                 for (int columnIndex = 0; columnIndex < columns; columnIndex++)
                 {
-                    var content = level.GetCell(columnIndex, rowIndex).Content;
+                    var content = level.GetCellContent(columnIndex, rowIndex);
                     
                     switch (content)
                     {
@@ -103,14 +102,30 @@ namespace LevelGenerator
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-
-                // Fix BottomCanvas Position
-                var bottomCanvas = GameObject.Find("BottomCanvas");
-                var bottomCanvasTransformPosition = bottomCanvas.transform.position;
-                bottomCanvasTransformPosition.z = -(rows + 1) * NodeDimension;
-                bottomCanvas.transform.position = bottomCanvasTransformPosition;
-                
             }
+            
+            
+            var waypoints = GameObject.Find("Waypoints");
+            var index = 0;
+            foreach (var waypoint in level.Waypoints)
+            {
+                var position = new Vector3(
+                    waypoint.Item1 * NodeDimension ,
+                    WaypointHeight,
+                    -waypoint.Item2 * NodeDimension);
+                var go = new GameObject($"Waypoint ({index})");
+                go.transform.position = position;
+                go.transform.parent = waypoints.transform;
+                index++;
+            }
+                
+
+            // Fix BottomCanvas Position
+            var bottomCanvas = GameObject.Find("BottomCanvas");
+            var bottomCanvasTransformPosition = bottomCanvas.transform.position;
+            bottomCanvasTransformPosition.z = -(rows + 1) * NodeDimension;
+            bottomCanvas.transform.position = bottomCanvasTransformPosition;
+
         }
 
         private static GameObject Generate(CellContent content, int row, int column, string name = null)

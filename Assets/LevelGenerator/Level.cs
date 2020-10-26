@@ -18,7 +18,8 @@ namespace LevelGenerator
         internal int EndPositionY => Height - 2;
 
         private readonly Cell[,] cells;
-        private bool[,] waypoints;
+        private HashSet<Tuple<int, int>> waypoints;
+        internal HashSet<Tuple<int, int>> Waypoints => waypoints;
 
         internal Level(int width, int height)
         {
@@ -36,15 +37,35 @@ namespace LevelGenerator
             cells = CloneCells(level.cells);
         }
         
-        
+        internal void GeneratePath(bool random = false)
+        {
+            var generated = PathGenerator.Generate(this, random);
+            for (int index = 0; index < cells.Length; index++)
+            {
+                var x = index % Width;
+                var y = index / Width;
+                cells[x, y] = generated.cells[x, y];
+            }
+        }
 
-        internal Cell GetCell(int x, int y) => cells[x, y];
+        internal void GenerateWaypoints()
+        {
+            waypoints = new HashSet<Tuple<int, int>>();
+            foreach (var tuple in WaypointGenerator.GenerateWaypoints(this))
+            {
+                waypoints.Add(tuple);
+            }
+        }
+
+        internal CellContent GetCellContent(int x, int y) => cells[x, y].Content;
 
         internal bool IsEmpty(int x, int y) => cells[x, y].IsEmpty;
 
-        internal bool IsWaypoint(int x, int y) => waypoints[x, y];
-
-        internal bool TryGetCell(int x, int y, out Cell cell)
+        internal bool IsWaypoint(int x, int y) => waypoints.Contains(new Tuple<int, int>(x, y));
+        
+        private Cell GetCell(int x, int y) => cells[x, y];
+        
+        private bool TryGetCell(int x, int y, out Cell cell)
         {
             if (IsInsideBoundaries(x, y))
             {
@@ -74,16 +95,7 @@ namespace LevelGenerator
             cells[EndPositionX, EndPositionY].Content = CellContent.End;
         }
 
-        public void GeneratePath(bool random = false)
-        {
-            var generated = PathGenerator.Generate(this, random);
-            for (int index = 0; index < cells.Length; index++)
-            {
-                var x = index % Width;
-                var y = index / Width;
-                cells[x, y] = generated.cells[x, y];
-            }
-        }
+        
 
         public object Clone() =>
             new Level(this);

@@ -38,6 +38,7 @@ namespace LevelGenerator
             rows = EditorGUILayout.IntSlider("Rows", rows, MinRows, MaxRows);
             columns = EditorGUILayout.IntSlider("Columns", columns, MinColumns, MaxColumns);
             random = EditorGUILayout.Toggle("Random Path", random);
+            EditorGUILayout.HelpBox("Random Path could cause problems (i.e. Unity freezes).", MessageType.Warning);
             if (GUILayout.Button("Generate"))
             {
                 EditorSceneManager.SaveOpenScenes();
