@@ -63,21 +63,42 @@ namespace LevelGenerator
                     switch (content)
                     {
                         case CellContent.Node:
-                            Generate(content, rowIndex, columnIndex);
+                        {
+                            var node = Generate(content, rowIndex, columnIndex, $"Node ({columnIndex})");
+                            node.transform.SetParent(row.transform);
                             break;
+                        }
                         case CellContent.Path:
-                            Generate(content, rowIndex, columnIndex);
+                        {
+                            var path = Generate(content, rowIndex, columnIndex);
+                            path.transform.SetParent(environment.transform);
                             break;
+                        }
                         case CellContent.Start:
-                            var start = (GameObject) Generate(content, rowIndex, columnIndex);
-                            Generate(CellContent.Path, rowIndex, columnIndex);
+                        {
+                            var start = Generate(content, rowIndex, columnIndex);
                             // Fix unassigned reference in GameMaster
                             gameMaster.GetComponent<WaveSpawner>().spawnPoint = start.transform;
+                            start.transform.SetSiblingIndex(nodes.transform.GetSiblingIndex()+1);
+                            
+                            // Create path underneath
+                            var path = Generate(content, rowIndex, columnIndex);
+                            path.transform.SetParent(environment.transform);
                             break;
+                        }
                         case CellContent.End:
-                            Generate(content, rowIndex, columnIndex);
-                            Generate(CellContent.Path, rowIndex, columnIndex);
+                        {
+                            var end = Generate(content, rowIndex, columnIndex);
+                            end.transform.SetSiblingIndex(
+                                GameObject.Find("START")?.transform.GetSiblingIndex()+1 ?? 
+                                nodes.transform.GetSiblingIndex()+1
+                                );
+
+                            // Create path underneath
+                            var path = Generate(content, rowIndex, columnIndex);
+                            path.transform.SetParent(environment.transform);
                             break;
+                        }
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -92,13 +113,15 @@ namespace LevelGenerator
             }
         }
 
-        private static Object Generate(CellContent content, int row, int column)
+        private static GameObject Generate(CellContent content, int row, int column, string name = null)
         {
             var y = content == CellContent.Start || content == CellContent.End ? 2.5f : 0f;
             var position = new Vector3(column * NodeDimension, y, -row * NodeDimension);
-            return Object.Instantiate(Utils.RelatedResource(content),
+            var go = (GameObject) Object.Instantiate(Utils.RelatedResource(content),
                 position: position,
                 rotation: Quaternion.identity);
+            go.name = name ?? go.name.Split('(')[0];
+            return go;
         }
         
     }
