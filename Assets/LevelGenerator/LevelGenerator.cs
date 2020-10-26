@@ -82,7 +82,7 @@ namespace LevelGenerator
                             start.transform.SetSiblingIndex(nodes.transform.GetSiblingIndex()+1);
                             
                             // Create path underneath
-                            var path = Generate(content, rowIndex, columnIndex);
+                            var path = Generate(CellContent.Path, rowIndex, columnIndex);
                             path.transform.SetParent(environment.transform);
                             break;
                         }
@@ -95,7 +95,7 @@ namespace LevelGenerator
                                 );
 
                             // Create path underneath
-                            var path = Generate(content, rowIndex, columnIndex);
+                            var path = Generate(CellContent.Path, rowIndex, columnIndex);
                             path.transform.SetParent(environment.transform);
                             break;
                         }
