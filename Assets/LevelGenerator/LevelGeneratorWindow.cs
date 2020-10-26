@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace LevelGenerator
@@ -39,6 +40,7 @@ namespace LevelGenerator
             random = EditorGUILayout.Toggle("Random Path", random);
             if (GUILayout.Button("Generate"))
             {
+                EditorSceneManager.SaveOpenScenes();
                 LevelGenerator.CloneLevel(levelNumber, rows, columns, random);
             }
         }
