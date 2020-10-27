@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
-    internal class Level : ICloneable
+    public class Level : ICloneable
     {
         private readonly int width;
         private readonly int height;
@@ -133,5 +132,16 @@ namespace LevelGenerator
         private void CloneCells(Cell[,] source, out Cell[,] destination) => 
             destination = CloneCells(source);
 
+        internal IEnumerable<string> ToAsp()
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    var name = cells[x, y].Content.ToString();
+                    yield return AspGenerator.AspString(name, new List<string> {x.ToString(), y.ToString()});
+                }
+            }
+        }
     }
 }

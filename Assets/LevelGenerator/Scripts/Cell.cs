@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     internal enum CellContent { Node, Path, Start, End }
     
@@ -11,7 +11,7 @@ namespace LevelGenerator
         internal Cell() =>
             Content = CellContent.Node;
         
-        internal Cell(CellContent content) =>
+        private Cell(CellContent content) =>
             Content = content;
         
         internal bool IsEmpty =>
@@ -19,6 +19,6 @@ namespace LevelGenerator
 
         public object Clone() =>
             new Cell(Content);
-
+        
     }
 }

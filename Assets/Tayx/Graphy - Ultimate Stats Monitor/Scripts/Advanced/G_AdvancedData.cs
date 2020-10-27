@@ -9,16 +9,15 @@
  * Attribution is not required, but it is always welcomed!
  * -------------------------------------*/
 
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Text;
 using Tayx.Graphy.UI;
 using Tayx.Graphy.Utils;
 using Tayx.Graphy.Utils.NumString;
-
+using UnityEngine;
+using UnityEngine.UI;
 #if UNITY_5_5_OR_NEWER
-using UnityEngine.Profiling;
+
 #endif
 
 namespace Tayx.Graphy.Advanced

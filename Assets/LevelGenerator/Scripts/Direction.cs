@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     internal enum Direction { Left, Up, Right, Down }
 

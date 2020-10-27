@@ -1,11 +1,12 @@
 ﻿#if UNITY_EDITOR
 using System;
+using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     internal static class LevelGenerator
     {
@@ -21,14 +22,16 @@ namespace LevelGenerator
         public static void CloneLevel(int levelIndex, int rows, int columns, bool random)
         {
             var suffix = $"{levelIndex:00}";
-            var levelName = LevelString + suffix + LevelExtension;
-            var dest = LevelsPath + levelName;
+            var levelName = LevelString + suffix;
+            var levelNameComplete = levelName + LevelExtension;
+            var dest = LevelsPath + levelNameComplete;
 
             var templateLevel = EditorSceneManager.OpenScene(TemplateLevelPath, OpenSceneMode.Single);
             if (EditorSceneManager.SaveScene(templateLevel, dest, true))
             {
                 var newScene = EditorSceneManager.OpenScene(dest, OpenSceneMode.Single);
-                Init(newScene, rows, columns, random);
+                var level = CreateUnityScene(newScene, rows, columns, random);
+                AspGenerator.CreateNewAspFile(level, levelName);
                 EditorSceneManager.MarkSceneDirty(newScene);
                 EditorSceneManager.SaveScene(newScene);
             }
@@ -38,7 +41,7 @@ namespace LevelGenerator
             }
         }
 
-        private static void Init(Scene newScene, int rows, int columns, bool random)
+        private static Level CreateUnityScene(Scene newScene, int rows, int columns, bool random)
         {
             var (width, height) = (columns, rows);
             var level = new Level(width, height, random);
@@ -147,6 +150,9 @@ namespace LevelGenerator
             bottomCanvasTransformPosition.z = -(rows + 1) * NodeDimension;
             bottomCanvas.transform.position = bottomCanvasTransformPosition;
 
+            GameObject.Find("Brain").GetComponent<Brain>().ASPFilePath = $"Assets/Resources/{newScene.name}.asp";
+
+            return level;
         }
 
         private static GameObject Generate(CellContent content, int row, int column, string name = null)

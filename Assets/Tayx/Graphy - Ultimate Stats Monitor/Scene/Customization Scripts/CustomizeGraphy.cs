@@ -10,12 +10,9 @@
  * -------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-using System.Collections;
-using System.Collections.Generic;
-
 using Random = UnityEngine.Random;
 
 namespace Tayx.Graphy.CustomizationScene
@@ -457,7 +454,7 @@ namespace Tayx.Graphy.CustomizationScene
         {
             if (m_sfxAudioClips.Count > 0)
             {
-                m_sfxAudioSource.clip = m_sfxAudioClips[UnityEngine.Random.Range(0, m_sfxAudioClips.Count)];
+                m_sfxAudioSource.clip = m_sfxAudioClips[Random.Range(0, m_sfxAudioClips.Count)];
 
                 m_sfxAudioSource.Play();
             }

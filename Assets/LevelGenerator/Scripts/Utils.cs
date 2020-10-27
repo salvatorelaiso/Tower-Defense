@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Object = UnityEngine.Object;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     internal static class Utils
     {
@@ -22,7 +23,7 @@ namespace LevelGenerator
         internal static bool IsInsideBoundaries(int x, int y, int xBound, int yBound) =>
             x >= 0 && x < xBound && y >= 0 && y < yBound;
 
-        internal static UnityEngine.Object RelatedResource(CellContent content)
+        internal static Object RelatedResource(CellContent content)
         {
             switch (content)
             {

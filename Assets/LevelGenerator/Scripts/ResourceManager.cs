@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     internal static class ResourceManager
     {

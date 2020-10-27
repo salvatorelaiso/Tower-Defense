@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     internal static class PathGenerator
     {

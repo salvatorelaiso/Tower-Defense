@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-namespace LevelGenerator
+namespace LevelGenerator.Scripts
 {
     public class LevelGeneratorWindow : EditorWindow
     {
