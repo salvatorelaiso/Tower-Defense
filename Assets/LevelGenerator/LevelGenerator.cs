@@ -41,10 +41,8 @@ namespace LevelGenerator
         private static void Init(Scene newScene, int rows, int columns, bool random)
         {
             var (width, height) = (columns, rows);
-            var level = new Level(width, height);
-            level.GeneratePath(random);
-            level.GenerateWaypoints();
-
+            var level = new Level(width, height, random);
+            
             var gameMaster = GameObject.Find("GameMaster");
             var nodes = GameObject.Find("Nodes");
             var environment = GameObject.Find("Environment");
@@ -101,6 +99,29 @@ namespace LevelGenerator
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+                }
+            }
+
+            Tuple<int, int> actualPosition = null;
+            foreach (var path in level.PathIterator())
+            {
+                var previousPosition = actualPosition;
+                actualPosition = path;
+                if (previousPosition != null)
+                {
+                    var x = (previousPosition.Item1 * NodeDimension + actualPosition.Item1 * NodeDimension) / 2;
+                    var z = -(previousPosition.Item2 * NodeDimension + actualPosition.Item2 * NodeDimension) / 2;
+                    var position = new Vector3(x, 0f, z);
+                    var rotation = Quaternion.identity;
+                    if (Mathf.Approximately(previousPosition.Item1, actualPosition.Item1))
+                    {
+                        rotation = Quaternion.Euler(0, 90, 0);
+                    }
+                    var connector = (GameObject) Object.Instantiate(ResourceManager.Connector,
+                        position: position,
+                        rotation: rotation);
+                    connector.transform.SetParent(environment.transform);
+                    connector.name = "Connector";
                 }
             }
             

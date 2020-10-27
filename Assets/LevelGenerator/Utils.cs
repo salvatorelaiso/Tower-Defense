@@ -39,5 +39,34 @@ namespace LevelGenerator
             }
         }
 
+        public static IEnumerable<Tuple<int, int>> PathIterator(this Level level)
+        {
+            var paths = level.Paths;
+            var previousX = -1;
+            var previousY = -1;
+            var x = 1;
+            var y = 1;
+            yield return new Tuple<int, int>(x, y);
+
+            var reachedEnd = false;
+            while (!reachedEnd)
+            {
+                var cannotFindPath = true;
+                foreach (var direction in (Direction[]) Enum.GetValues(typeof(Direction)))
+                {
+                    var (newX, newY) = direction.NextPosition(x, y);
+                    if (paths[newX, newY] && (newX != previousX || newY != previousY))
+                    {
+                        cannotFindPath = false;
+                        yield return new Tuple<int, int>(newX, newY);
+                        (previousX, previousY) = (x, y);
+                        (x, y) = (newX, newY);
+                        reachedEnd = x == level.EndPositionX && y == level.EndPositionY;
+                        break;
+                    }
+                }
+                if (cannotFindPath) throw new Exception("Cannot find Path!");
+            }
+        }
     }
 }

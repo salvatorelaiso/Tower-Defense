@@ -18,16 +18,21 @@ namespace LevelGenerator
         internal int EndPositionY => Height - 2;
 
         private readonly Cell[,] cells;
-        private HashSet<Tuple<int, int>> waypoints;
-        internal HashSet<Tuple<int, int>> Waypoints => waypoints;
 
-        internal Level(int width, int height)
+        internal HashSet<Tuple<int, int>> Waypoints { get; private set; }
+        internal bool[,] Paths { get; private set; }
+
+
+        internal Level(int width, int height, bool random = false)
         {
             this.width = width;
             this.height = height;
             cells = new Cell[width, height];
             
             InitializeCells();
+            GeneratePath(random);
+            GeneratePathMatrix();
+            GenerateWaypoints();
         }
 
         private Level(Level level)
@@ -37,7 +42,7 @@ namespace LevelGenerator
             cells = CloneCells(level.cells);
         }
         
-        internal void GeneratePath(bool random = false)
+        private void GeneratePath(bool random)
         {
             var generated = PathGenerator.Generate(this, random);
             for (int index = 0; index < cells.Length; index++)
@@ -48,12 +53,24 @@ namespace LevelGenerator
             }
         }
 
-        internal void GenerateWaypoints()
+        private void GenerateWaypoints()
         {
-            waypoints = new HashSet<Tuple<int, int>>();
+            Waypoints = new HashSet<Tuple<int, int>>();
             foreach (var tuple in WaypointGenerator.GenerateWaypoints(this))
             {
-                waypoints.Add(tuple);
+                Waypoints.Add(tuple);
+            }
+        }
+        
+        private void GeneratePathMatrix()
+        {
+            Paths = new bool[Width, Height];
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    Paths[x, y] = GetCellContent(x, y) != CellContent.Node;
+                }
             }
         }
 
@@ -61,7 +78,7 @@ namespace LevelGenerator
 
         internal bool IsEmpty(int x, int y) => cells[x, y].IsEmpty;
 
-        internal bool IsWaypoint(int x, int y) => waypoints.Contains(new Tuple<int, int>(x, y));
+        internal bool IsWaypoint(int x, int y) => Waypoints.Contains(new Tuple<int, int>(x, y));
         
         private Cell GetCell(int x, int y) => cells[x, y];
         
@@ -80,8 +97,7 @@ namespace LevelGenerator
         
         private bool IsInsideBoundaries(int x, int y) =>
             Utils.IsInsideBoundaries(x, y, Width, Height);
-
-
+        
         private void InitializeCells()
         {
             for (int index = 0; index < cells.Length; index++)
