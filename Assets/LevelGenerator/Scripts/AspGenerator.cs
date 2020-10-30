@@ -45,14 +45,14 @@ namespace LevelGenerator.Scripts
             File.AppendAllText(newFile, File.ReadAllText(DefaultAspLogicFile));
             using (var streamWriter = File.AppendText(newFile))
             {
-                streamWriter.WriteLineAsync(
+                streamWriter.WriteLine(
                     "\n% Others\n" +
                     $"\t{start} {end}\n"
                 );
-                streamWriter.WriteLineAsync("% Paths");
+                streamWriter.WriteLine("% Paths");
                 foreach (var path in paths)
                 {
-                    streamWriter.WriteLineAsync($"\t{path}");
+                    streamWriter.WriteLine($"\t{path}");
                 }
             }
 
