@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
@@ -69,5 +70,60 @@ namespace LevelGenerator.Scripts
                 if (cannotFindPath) throw new Exception("Cannot find Path!");
             }
         }
+
+        private static IEnumerable<Tuple<int, int>> AdjacentsOf(int x, int y, int width, int height)
+        {
+            // Left column
+            var leftColumn = x - 1;
+            if (leftColumn > 0)
+            {
+                for (int deltaY = -1; deltaY < 2; deltaY++)
+                {
+                    if (IsInsideBoundaries(leftColumn, y + deltaY, width, height))
+                    {
+                        yield return new Tuple<int, int>(leftColumn, y + deltaY);
+                    }
+                }
+            }
+
+            if (IsInsideBoundaries(x, y - 1, width, height))
+            {
+                yield return new Tuple<int, int>(x, y - 1);
+            }
+            
+            if (IsInsideBoundaries(x, y + 1, width, height))
+            {
+                yield return new Tuple<int, int>(x, y + 1);
+            }
+            
+            // Right column
+            var rightColumn = x + 1;
+            if (rightColumn < width)
+            {
+                for (int deltaY = -1; deltaY < 2; deltaY++)
+                {
+                    if (IsInsideBoundaries(rightColumn, y + deltaY, width, height))
+                    {
+                        yield return new Tuple<int, int>(rightColumn, y + deltaY);
+                    }
+                }
+            }
+        }
+
+        internal static IEnumerable<Tuple<int, int, int, int>> Adjacents(Level level)
+        {
+            for (int x = 0; x < level.Width; x++)
+            {
+                for (int y = 0; y < level.Height; y++)
+                {
+                    foreach (var adjacent in AdjacentsOf(x, y, level.Width, level.Height))
+                    {
+                        yield return new Tuple<int, int, int, int>(x, y, adjacent.Item1, adjacent.Item2);
+                    }
+                }
+            }
+        }
+        
+        
     }
 }
