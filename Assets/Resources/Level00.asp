@@ -11,6 +11,8 @@
 
     money(Value) :- player(gameMaster(playerStats(money(Value)))).
 
+% Do not build if there is no enemy
+:- #count{ID : enemy(ID, _, _, _)} < 1.
 
 % List possible builds
 possibleBuild(X, Y, standardTurret) :- node(_, X, Y, none), money >= Price, cost(standardTurret, Price), money(Money).
