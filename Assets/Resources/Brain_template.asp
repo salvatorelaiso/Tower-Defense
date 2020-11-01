@@ -2,6 +2,7 @@ setOnActuator(actuator(brain(aI(x(X))))):-
 setOnActuator(actuator(brain(aI(y(X))))):-
 setOnActuator(actuator(brain(aI(turretTypeName(X))))):-
 %enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(healt(V)))))).
+%enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(type(V)))))).
 %enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(x(V)))))).
 %enemies(sensors(sensorsDataListsManager(enemies(X,enemySensorData(y(V)))))).
 %nodes(sensors(sensorsDataListsManager(nodes(X,nodeSensorData(turretTypeName(V)))))).

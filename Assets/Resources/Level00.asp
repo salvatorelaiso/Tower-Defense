@@ -1,6 +1,7 @@
 % ===== Input Transforming ===== %
-    enemy(ID, X, Y, Healt) :-
+    enemy(ID, X, Y, Healt, Type) :-
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(healt(Healt)))))),
+        enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(type(Type)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(x(X)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(y(Y)))))).
 
@@ -12,7 +13,7 @@
     money(Value) :- player(gameMaster(playerStats(money(Value)))).
 
 % Do not build if there is no enemy
-:- #count{ID : enemy(ID, _, _, _)} < 1.
+:- #count{ID : enemy(ID, _, _, _, _)} = 0.
 
 % List possible builds
 possibleBuild(X, Y, standardTurret) :- node(_, X, Y, none), money >= Price, cost(standardTurret, Price), money(Money).
