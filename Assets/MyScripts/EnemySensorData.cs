@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Utils.CustomAttributes.ReadOnly;
+
 
 [RequireComponent(typeof(Enemy))]
 public class EnemySensorData : SensorData
@@ -8,10 +10,16 @@ public class EnemySensorData : SensorData
 
     [ReadOnly] [SerializeField]
     private int healt;
-
+    
+    private string type;
+    
     private new void Awake()
     {
         enemy = GetComponent<Enemy>();
+        type = enemy.name.Substring(
+            enemy.name.IndexOf('_') + 1, 
+            (enemy.name.Length - enemy.name.IndexOf('_')) - (enemy.name.Length - enemy.name.IndexOf('(') + 1))
+            .ToLower();
         UpdateData();
     }
 
