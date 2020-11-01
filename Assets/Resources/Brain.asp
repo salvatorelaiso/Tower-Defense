@@ -38,7 +38,9 @@ expense(Money) :- build(_, _, Turret), cost(Turret, Money).
 
 nodePositionCoefficient(NodeX, NodeY, Value) :-
     node(_, NodeX, NodeY, _),
-    #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Value.
+    #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
+	#count{ X, Y : adjacent(NodeX, NodeY, X, Y), node(_, X, Y, Turret), Turret != none} = NotEmptyNodes,
+	Value = Paths + NotEmptyNodes.
 :~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 8 - Value. [AmountToPay@1]
 
 % Take only one action from the plan to put it in the actuator
