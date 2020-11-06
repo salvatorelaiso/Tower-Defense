@@ -712,11 +712,11 @@ MonoBehaviour:
   fps: 0
   brain: {fileID: 1212056145}
   defaultSeparator: 0
-  saveToTxt: 1
+  saveToTxt: 0
   useAnotherSeparatorForTxt: 0
   txtSeparator: 0
   saveToCsv: 1
-  useAnotherSeparatorForCsv: 1
+  useAnotherSeparatorForCsv: 0
   csvSeparator: 1
 --- !u!4 &152085541
 Transform:

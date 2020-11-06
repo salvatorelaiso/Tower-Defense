@@ -15,10 +15,10 @@ namespace LevelGenerator.Scripts
         
         private int rows;
         private const int MinRows =   4;
-        private const int MaxRows =  20;
+        private const int MaxRows =  30;
         private int columns;
         private const int MinColumns =   4;
-        private const int MaxColumns =  20;
+        private const int MaxColumns =  30;
 
         private bool random;
 

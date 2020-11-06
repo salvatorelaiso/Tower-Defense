@@ -44,7 +44,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -889,11 +889,11 @@ MonoBehaviour:
   fps: 0
   brain: {fileID: 1212056145}
   defaultSeparator: 0
-  saveToTxt: 1
+  saveToTxt: 0
   useAnotherSeparatorForTxt: 0
   txtSeparator: 0
   saveToCsv: 1
-  useAnotherSeparatorForCsv: 1
+  useAnotherSeparatorForCsv: 0
   csvSeparator: 1
 --- !u!4 &152085541
 Transform:
