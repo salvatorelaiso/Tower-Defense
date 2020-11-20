@@ -36,8 +36,6 @@ expense(Money) :- build(_, _, Turret), cost(Turret, Money).
 % Maximize the expense
 :~ money(Amount), #sum{ Price : expense(Price) } = TotalToPay, RemainingMoney = Amount - TotalToPay. [RemainingMoney@2]
 
-% For testing purpuses, we will build next to our position
-
 %nodePositionCoefficient(NodeX, NodeY, Value) :-
 %   node(_, NodeX, NodeY, _),
 %   #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
