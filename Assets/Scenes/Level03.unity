@@ -9443,11 +9443,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gOConfigurations:
-  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   localNames:
-  - Enemies
   - Nodes
+  - Enemies
   goName: Sensors
 --- !u!114 &1060836207
 MonoBehaviour:
@@ -9476,11 +9476,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gOConfigurations:
-  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   localNames:
-  - Enemies
   - Nodes
+  - Enemies
   goName: Sensors
 --- !u!1 &1063546588
 GameObject:
@@ -11781,7 +11781,7 @@ MonoBehaviour:
   ASPFileTemplatePath: .\Assets\Resources\Brain_template.asp
   triggerClassPath: .\Assets\Scripts\Trigger.cs
   updateSensorsRepeteadly: 1
-  sensorsUpdateFrequencyMS: 500
+  sensorsUpdateFrequencyMS: 100
   updateSensorsOnTrigger: 0
   updateSensorsOn: 
   executeReasonerOn: When Sensors are ready

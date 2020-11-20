@@ -126,7 +126,6 @@ public class FpsReport : MonoBehaviour
             var separator = useAnotherSeparatorForCsv ? csvSeparator : defaultSeparator;
             UpdateText(csvPath, separator, updatingSensors);
         }
-        updatingSensors = Performance.updatingSensors;
         Performance.updatingSensors = false;
     }
 

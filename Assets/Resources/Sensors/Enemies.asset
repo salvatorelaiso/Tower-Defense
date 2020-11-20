@@ -25,6 +25,7 @@ MonoBehaviour:
       PublicKeyToken=null
     toSave:
     - healt
+    - type
     - X
     - Y
     propertyName: SensorsDataListsManager^enemies

@@ -687,6 +687,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2371668, guid: 851230bc3ae7a7f47a465c2a34e1611f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 851230bc3ae7a7f47a465c2a34e1611f, type: 3}
 --- !u!4 &65650788 stripped
@@ -6244,11 +6248,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gOConfigurations:
-  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   localNames:
-  - Enemies
   - Nodes
+  - Enemies
   goName: Sensors
 --- !u!114 &1060836207
 MonoBehaviour:
@@ -6277,11 +6281,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gOConfigurations:
-  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   - {fileID: 11400000, guid: 8d2b4eba29d572c42bceb815edae998e, type: 2}
+  - {fileID: 11400000, guid: ae2a891081ed6f14c9c920a152451a90, type: 2}
   localNames:
-  - Enemies
   - Nodes
+  - Enemies
   goName: Sensors
 --- !u!1001 &1073861516
 PrefabInstance:
@@ -7348,7 +7352,7 @@ MonoBehaviour:
   ASPFileTemplatePath: .\Assets\Resources\Brain_template.asp
   triggerClassPath: .\Assets\Scripts\Trigger.cs
   updateSensorsRepeteadly: 1
-  sensorsUpdateFrequencyMS: 500
+  sensorsUpdateFrequencyMS: 100
   updateSensorsOnTrigger: 0
   updateSensorsOn: 
   executeReasonerOn: When Sensors are ready

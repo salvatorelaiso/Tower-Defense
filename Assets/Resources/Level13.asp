@@ -71,47 +71,30 @@ setOnActuator(actuator(brain(aI(turretTypeName(Turret))))):- build(_, _, Turret)
     cost(laserBeamerUpgraded, 250).
 % Paths
 	path(1,2).
-	path(2,2).
-	path(3,2).
-	path(4,2).
-	path(5,1).
-	path(5,2).
-	path(6,1).
-	path(7,1).
-	path(7,2).
-	path(7,3).
-	path(7,4).
-	path(8,4).
-	path(9,2).
-	path(9,3).
-	path(9,4).
-	path(9,7).
-	path(9,8).
-	path(9,9).
-	path(10,1).
-	path(10,2).
-	path(10,6).
-	path(10,7).
-	path(10,9).
-	path(10,10).
-	path(10,11).
-	path(10,12).
-	path(11,1).
-	path(11,6).
-	path(11,12).
+	path(1,3).
+	path(1,4).
+	path(1,5).
+	path(1,6).
+	path(1,7).
+	path(1,8).
+	path(1,9).
+	path(1,10).
+	path(1,11).
+	path(1,12).
+	path(1,13).
+	path(2,13).
+	path(3,13).
+	path(4,13).
+	path(5,13).
+	path(6,13).
+	path(7,13).
+	path(8,13).
+	path(9,13).
+	path(10,13).
 	path(11,13).
-	path(12,1).
-	path(12,2).
-	path(12,3).
-	path(12,4).
-	path(12,6).
-	path(12,13).
-	path(13,4).
-	path(13,5).
-	path(13,6).
 
 % Others
-	start(1,1). end(13,13).
+	start(1,1). end(12,13).
 
 
 % Adjacents
@@ -1514,185 +1497,71 @@ setOnActuator(actuator(brain(aI(turretTypeName(Turret))))):- build(_, _, Turret)
 	adjacent(13,0,12,0).
 	adjacent(13,0,12,1).
 	adjacent(13,0,13,1).
-	adjacent(13,0,14,0).
-	adjacent(13,0,14,1).
 	adjacent(13,1,12,0).
 	adjacent(13,1,12,1).
 	adjacent(13,1,12,2).
 	adjacent(13,1,13,0).
 	adjacent(13,1,13,2).
-	adjacent(13,1,14,0).
-	adjacent(13,1,14,1).
-	adjacent(13,1,14,2).
 	adjacent(13,2,12,1).
 	adjacent(13,2,12,2).
 	adjacent(13,2,12,3).
 	adjacent(13,2,13,1).
 	adjacent(13,2,13,3).
-	adjacent(13,2,14,1).
-	adjacent(13,2,14,2).
-	adjacent(13,2,14,3).
 	adjacent(13,3,12,2).
 	adjacent(13,3,12,3).
 	adjacent(13,3,12,4).
 	adjacent(13,3,13,2).
 	adjacent(13,3,13,4).
-	adjacent(13,3,14,2).
-	adjacent(13,3,14,3).
-	adjacent(13,3,14,4).
 	adjacent(13,4,12,3).
 	adjacent(13,4,12,4).
 	adjacent(13,4,12,5).
 	adjacent(13,4,13,3).
 	adjacent(13,4,13,5).
-	adjacent(13,4,14,3).
-	adjacent(13,4,14,4).
-	adjacent(13,4,14,5).
 	adjacent(13,5,12,4).
 	adjacent(13,5,12,5).
 	adjacent(13,5,12,6).
 	adjacent(13,5,13,4).
 	adjacent(13,5,13,6).
-	adjacent(13,5,14,4).
-	adjacent(13,5,14,5).
-	adjacent(13,5,14,6).
 	adjacent(13,6,12,5).
 	adjacent(13,6,12,6).
 	adjacent(13,6,12,7).
 	adjacent(13,6,13,5).
 	adjacent(13,6,13,7).
-	adjacent(13,6,14,5).
-	adjacent(13,6,14,6).
-	adjacent(13,6,14,7).
 	adjacent(13,7,12,6).
 	adjacent(13,7,12,7).
 	adjacent(13,7,12,8).
 	adjacent(13,7,13,6).
 	adjacent(13,7,13,8).
-	adjacent(13,7,14,6).
-	adjacent(13,7,14,7).
-	adjacent(13,7,14,8).
 	adjacent(13,8,12,7).
 	adjacent(13,8,12,8).
 	adjacent(13,8,12,9).
 	adjacent(13,8,13,7).
 	adjacent(13,8,13,9).
-	adjacent(13,8,14,7).
-	adjacent(13,8,14,8).
-	adjacent(13,8,14,9).
 	adjacent(13,9,12,8).
 	adjacent(13,9,12,9).
 	adjacent(13,9,12,10).
 	adjacent(13,9,13,8).
 	adjacent(13,9,13,10).
-	adjacent(13,9,14,8).
-	adjacent(13,9,14,9).
-	adjacent(13,9,14,10).
 	adjacent(13,10,12,9).
 	adjacent(13,10,12,10).
 	adjacent(13,10,12,11).
 	adjacent(13,10,13,9).
 	adjacent(13,10,13,11).
-	adjacent(13,10,14,9).
-	adjacent(13,10,14,10).
-	adjacent(13,10,14,11).
 	adjacent(13,11,12,10).
 	adjacent(13,11,12,11).
 	adjacent(13,11,12,12).
 	adjacent(13,11,13,10).
 	adjacent(13,11,13,12).
-	adjacent(13,11,14,10).
-	adjacent(13,11,14,11).
-	adjacent(13,11,14,12).
 	adjacent(13,12,12,11).
 	adjacent(13,12,12,12).
 	adjacent(13,12,12,13).
 	adjacent(13,12,13,11).
 	adjacent(13,12,13,13).
-	adjacent(13,12,14,11).
-	adjacent(13,12,14,12).
-	adjacent(13,12,14,13).
 	adjacent(13,13,12,12).
 	adjacent(13,13,12,13).
 	adjacent(13,13,12,14).
 	adjacent(13,13,13,12).
 	adjacent(13,13,13,14).
-	adjacent(13,13,14,12).
-	adjacent(13,13,14,13).
-	adjacent(13,13,14,14).
 	adjacent(13,14,12,13).
 	adjacent(13,14,12,14).
 	adjacent(13,14,13,13).
-	adjacent(13,14,14,13).
-	adjacent(13,14,14,14).
-	adjacent(14,0,13,0).
-	adjacent(14,0,13,1).
-	adjacent(14,0,14,1).
-	adjacent(14,1,13,0).
-	adjacent(14,1,13,1).
-	adjacent(14,1,13,2).
-	adjacent(14,1,14,0).
-	adjacent(14,1,14,2).
-	adjacent(14,2,13,1).
-	adjacent(14,2,13,2).
-	adjacent(14,2,13,3).
-	adjacent(14,2,14,1).
-	adjacent(14,2,14,3).
-	adjacent(14,3,13,2).
-	adjacent(14,3,13,3).
-	adjacent(14,3,13,4).
-	adjacent(14,3,14,2).
-	adjacent(14,3,14,4).
-	adjacent(14,4,13,3).
-	adjacent(14,4,13,4).
-	adjacent(14,4,13,5).
-	adjacent(14,4,14,3).
-	adjacent(14,4,14,5).
-	adjacent(14,5,13,4).
-	adjacent(14,5,13,5).
-	adjacent(14,5,13,6).
-	adjacent(14,5,14,4).
-	adjacent(14,5,14,6).
-	adjacent(14,6,13,5).
-	adjacent(14,6,13,6).
-	adjacent(14,6,13,7).
-	adjacent(14,6,14,5).
-	adjacent(14,6,14,7).
-	adjacent(14,7,13,6).
-	adjacent(14,7,13,7).
-	adjacent(14,7,13,8).
-	adjacent(14,7,14,6).
-	adjacent(14,7,14,8).
-	adjacent(14,8,13,7).
-	adjacent(14,8,13,8).
-	adjacent(14,8,13,9).
-	adjacent(14,8,14,7).
-	adjacent(14,8,14,9).
-	adjacent(14,9,13,8).
-	adjacent(14,9,13,9).
-	adjacent(14,9,13,10).
-	adjacent(14,9,14,8).
-	adjacent(14,9,14,10).
-	adjacent(14,10,13,9).
-	adjacent(14,10,13,10).
-	adjacent(14,10,13,11).
-	adjacent(14,10,14,9).
-	adjacent(14,10,14,11).
-	adjacent(14,11,13,10).
-	adjacent(14,11,13,11).
-	adjacent(14,11,13,12).
-	adjacent(14,11,14,10).
-	adjacent(14,11,14,12).
-	adjacent(14,12,13,11).
-	adjacent(14,12,13,12).
-	adjacent(14,12,13,13).
-	adjacent(14,12,14,11).
-	adjacent(14,12,14,13).
-	adjacent(14,13,13,12).
-	adjacent(14,13,13,13).
-	adjacent(14,13,13,14).
-	adjacent(14,13,14,12).
-	adjacent(14,13,14,14).
-	adjacent(14,14,13,13).
-	adjacent(14,14,13,14).
-	adjacent(14,14,14,13).

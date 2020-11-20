@@ -56,7 +56,6 @@ public class Node : MonoBehaviour
     {
         if (PlayerStats.Money < blueprint.cost)
         {
-            Debug.Log("Not enough money to build that!");
             return;
         }
 
@@ -70,7 +69,6 @@ public class Node : MonoBehaviour
         var effect = Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity);
         Destroy(effect, 5f);
         
-        Debug.Log("Turret build!");
         nodeSensorData.SetTurretType(turret.name);
     }
 
@@ -78,7 +76,6 @@ public class Node : MonoBehaviour
     {
         if (PlayerStats.Money < turretBlueprint.upgradeCost)
         {
-            Debug.Log("Not enough money to upgrade that!");
             return;
         }
 
@@ -96,7 +93,6 @@ public class Node : MonoBehaviour
 
         isUpgraded = true;
 
-        Debug.Log("Turret upgraded!");
         nodeSensorData.SetTurretType(turret.name);
     }
 

@@ -1421,7 +1421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startLives: 1
-  startMoney: 800
+  startMoney: 100
 --- !u!114 &196616391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7194,7 +7194,7 @@ MonoBehaviour:
   ASPFileTemplatePath: .\Assets\Resources\Brain_template.asp
   triggerClassPath: .\Assets\Scripts\Trigger.cs
   updateSensorsRepeteadly: 1
-  sensorsUpdateFrequencyMS: 500
+  sensorsUpdateFrequencyMS: 100
   updateSensorsOnTrigger: 0
   updateSensorsOn: 
   executeReasonerOn: When Sensors are ready

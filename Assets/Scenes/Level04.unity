@@ -12539,7 +12539,7 @@ MonoBehaviour:
   ASPFileTemplatePath: .\Assets\Resources\Brain_template.asp
   triggerClassPath: .\Assets\Scripts\Trigger.cs
   updateSensorsRepeteadly: 1
-  sensorsUpdateFrequencyMS: 500
+  sensorsUpdateFrequencyMS: 100
   updateSensorsOnTrigger: 0
   updateSensorsOn: 
   executeReasonerOn: When Sensors are ready

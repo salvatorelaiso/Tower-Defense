@@ -36,12 +36,22 @@ expense(Money) :- build(_, _, Turret), cost(Turret, Money).
 % Maximize the expense
 :~ money(Amount), #sum{ Price : expense(Price) } = TotalToPay, RemainingMoney = Amount - TotalToPay. [RemainingMoney@2]
 
+% For testing purpuses, we will build next to our position
+
+%nodePositionCoefficient(NodeX, NodeY, Value) :-
+%   node(_, NodeX, NodeY, _),
+%   #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
+%	#count{ X, Y : adjacent(NodeX, NodeY, X, Y), node(_, X, Y, Turret), Turret != none} = NotEmptyNodes,
+%	Value = Paths + NotEmptyNodes.
+% :~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 8 - Value. [AmountToPay@1]
+
+:- #count{ID : node(ID, _, _, Turret), Turret != none} = Turrets, build(X, Y, _), end(EndX, EndY), not adjacent(X, Y, EndX, EndY), Turrets < 2.
 nodePositionCoefficient(NodeX, NodeY, Value) :-
-    node(_, NodeX, NodeY, _),
-    #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
+	node(_, NodeX, NodeY, _),
+	#count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
 	#count{ X, Y : adjacent(NodeX, NodeY, X, Y), node(_, X, Y, Turret), Turret != none} = NotEmptyNodes,
-	Value = Paths + NotEmptyNodes.
-:~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 8 - Value. [AmountToPay@1]
+	Value = Paths + NotEmptyNodes*2.
+:~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 16 - Value. [AmountToPay@1]
 
 % Take only one action from the plan to put it in the actuator
 action(X, Y, Turret) | out(X, Y, Turret) :- build(X, Y, Turret).
