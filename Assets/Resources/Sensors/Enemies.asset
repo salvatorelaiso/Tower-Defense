@@ -24,7 +24,7 @@ MonoBehaviour:
   - objType: EnemySensorData, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     toSave:
-    - healt
+    - health
     - type
     - X
     - Y
