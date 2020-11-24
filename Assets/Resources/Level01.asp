@@ -1,6 +1,6 @@
 % ===== Input Transforming ===== %
-    enemy(ID, X, Y, Healt, Type) :-
-        enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(healt(Healt)))))),
+    enemy(ID, X, Y, Health, Type) :-
+        enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(health(Health)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(type(Type)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(x(X)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(y(Y)))))).
@@ -36,12 +36,13 @@ expense(Money) :- build(_, _, Turret), cost(Turret, Money).
 % Maximize the expense
 :~ money(Amount), #sum{ Price : expense(Price) } = TotalToPay, RemainingMoney = Amount - TotalToPay. [RemainingMoney@2]
 
+:- #count{ID : node(ID, _, _, Turret), Turret != none} = Turrets, build(X, Y, _), end(EndX, EndY), not adjacent(X, Y, EndX, EndY), Turrets = 0.
 nodePositionCoefficient(NodeX, NodeY, Value) :-
-    node(_, NodeX, NodeY, _),
-    #count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
+	node(_, NodeX, NodeY, _),
+	#count{ X, Y : adjacent(NodeX, NodeY, X, Y), path(X, Y)} = Paths,
 	#count{ X, Y : adjacent(NodeX, NodeY, X, Y), node(_, X, Y, Turret), Turret != none} = NotEmptyNodes,
-	Value = Paths + NotEmptyNodes.
-:~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 8 - Value. [AmountToPay@1]
+	Value = Paths + NotEmptyNodes*2.
+:~ nodePositionCoefficient(NodeX, NodeY, Value), build(NodeX, NodeY, _), AmountToPay = 16 - Value. [AmountToPay@1]
 
 % Take only one action from the plan to put it in the actuator
 action(X, Y, Turret) | out(X, Y, Turret) :- build(X, Y, Turret).
@@ -59,6 +60,7 @@ setOnActuator(actuator(brain(aI(turretTypeName(Turret))))):- build(_, _, Turret)
     cost(missileLauncherUpgraded, 150).
     cost(laserBeamer, 350).
     cost(laserBeamerUpgraded, 250).
+
 % Paths
 	path(1,2).
 	path(2,2).
@@ -72,7 +74,6 @@ setOnActuator(actuator(brain(aI(turretTypeName(Turret))))):- build(_, _, Turret)
 
 % Others
 	start(1,1). end(8,2).
-
 
 % Adjacents
 	adjacent(0,0,0,1).

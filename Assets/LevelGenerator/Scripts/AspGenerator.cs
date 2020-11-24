@@ -59,18 +59,18 @@ namespace LevelGenerator.Scripts
             File.AppendAllText(newFile, File.ReadAllText(DefaultAspLogicFile));
             using (var streamWriter = File.AppendText(newFile))
             {
-                streamWriter.WriteLine("% Paths");
+                streamWriter.WriteLine("\n% Paths");
                 foreach (var path in paths)
                 {
-                    streamWriter.WriteLine($"\t{path}");
+                    streamWriter.WriteLine($"\t{path}\n");
                 }
                 
                 streamWriter.WriteLine(
-                    "\n% Others\n" +
+                    "% Others\n" +
                     $"\t{start} {end}\n"
                 );
                 
-                streamWriter.WriteLine("\n% Adjacents");
+                streamWriter.WriteLine("% Adjacents");
                 foreach (var adjacent in adjacents)
                 {
                     int[] values = {adjacent.Item1, adjacent.Item2, adjacent.Item3, adjacent.Item4};

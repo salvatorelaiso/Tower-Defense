@@ -1,6 +1,6 @@
 % ===== Input Transforming ===== %
-    enemy(ID, X, Y, Healt, Type) :-
-        enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(healt(Healt)))))),
+    enemy(ID, X, Y, Health, Type) :-
+        enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(health(Health)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(type(Type)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(x(X)))))),
         enemies(sensors(sensorsDataListsManager(enemies(ID,enemySensorData(y(Y)))))).

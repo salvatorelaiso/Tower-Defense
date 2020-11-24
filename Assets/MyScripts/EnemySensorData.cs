@@ -9,7 +9,7 @@ public class EnemySensorData : SensorData
     private Enemy enemy;
 
     [ReadOnly] [SerializeField]
-    private int healt;
+    private int health;
     
     private string type;
     
@@ -30,7 +30,7 @@ public class EnemySensorData : SensorData
     protected override void UpdateData()
     {
         base.UpdateData();
-        healt = (int) Mathf.Ceil(enemy.Health);
+        health = (int) Mathf.Ceil(enemy.Health);
     }
 
     private void OnDestroy() =>

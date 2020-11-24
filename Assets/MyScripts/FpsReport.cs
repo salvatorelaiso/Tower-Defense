@@ -175,7 +175,7 @@ public class FpsReport : MonoBehaviour
                 $"{separatorCharacter}Enemies" +
                 $"{separatorCharacter}Nodes" +
                 $"{separatorCharacter}Player" +
-                $"{separatorCharacter}Total Sensors" +
+                $"{separatorCharacter}Total" +
                 $"{separatorCharacter}Updating Sensors"
             );
         }
