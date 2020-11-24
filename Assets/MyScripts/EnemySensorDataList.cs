@@ -3,15 +3,15 @@ using Utils;
 
 public class EnemySensorDataList : Singleton<EnemySensorDataList>
 {
-    private readonly List<EnemySensorData> dictionary = new List<EnemySensorData>();
+    private readonly List<EnemySensorData> list = new List<EnemySensorData>();
 
-    public int Count => dictionary.Count;
+    public int Count => list.Count;
     
-    public List<EnemySensorData> List => dictionary;
+    public List<EnemySensorData> List => list;
 
     public void Add(EnemySensorData item) =>
-        dictionary.Add(item);
+        list.Add(item);
     
     public bool Remove(EnemySensorData item) =>
-        dictionary.Remove(item);
+        list.Remove(item);
 }
