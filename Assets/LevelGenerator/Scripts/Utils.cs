@@ -8,19 +8,20 @@ namespace LevelGenerator.Scripts
     internal static class Utils
     {
         private static readonly Random Random = new Random();
-        
-        internal static void Shuffle<T>(this IList<T> list)  
+
+        internal static void Shuffle<T>(this IList<T> list)
         {
-            var n = list.Count;  
-            while (n > 1) {  
-                n--;  
-                var k = Random.Next(n + 1);  
-                var value = list[k];  
-                list[k] = list[n];  
-                list[n] = value;  
-            }  
+            var n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                var k = Random.Next(n + 1);
+                var value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
         }
-        
+
         internal static bool IsInsideBoundaries(int x, int y, int xBound, int yBound) =>
             x >= 0 && x < xBound && y >= 0 && y < yBound;
 
